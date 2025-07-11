@@ -19,7 +19,7 @@ export const reportApi = createApi({
     // 1. Get transaction history summary
     getTransactionHistorySummary: builder.query({
       query: ({ startDate, endDate }) =>
-        "api/reports/transaction-history/summary?startDate=${startDate}&endDate=${endDate}",
+        `api/reports/transaction-history/summary?startDate=${startDate}&endDate=${endDate}`,
       providesTags: ["Report"],
     }),
 
