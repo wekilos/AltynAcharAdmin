@@ -22,6 +22,7 @@ const Products = () => {
   const [allSelected, setAllSelected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isDelete, setISDelete] = useState(false);
+  const [search, setSearch] = useState("");
   const [filter, setFilter] = useState({
     limit: 10,
     page: 1,
@@ -35,7 +36,14 @@ const Products = () => {
         : "",
   });
 
-  const { data, error, isLoading } = useGetAllProductsQuery();
+  const { data, error, isLoading } = useGetAllProductsQuery(search);
+
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setSearch(filter.search_query);
+    }, 500);
+    return () => clearTimeout(time);
+  }, [filter]);
 
   if (isLoading) return <PageLoading />;
   if (error) {

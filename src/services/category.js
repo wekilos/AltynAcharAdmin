@@ -23,7 +23,7 @@ export const categoryApi = createApi({
   endpoints: (builder) => ({
     // 1. ✅ Get all categories
     getAllCategories: builder.query({
-      query: () => `api/categories/`,
+      query: (search) => `api/categories/?search=${search}`,
       providesTags: ["Category"],
     }),
 

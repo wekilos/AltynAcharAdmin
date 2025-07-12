@@ -24,21 +24,31 @@ const Admins = () => {
   const [filter, setFilter] = useState({
     limit: 10,
     page: 1,
-    type: "user",
     search_query: "",
-    sort: "default",
   });
+  const [search, setSearch] = useState("");
   const {
     data: custumers,
     error,
     isLoading,
-  } = useGetAllAdminsQuery({ limit: filter?.limit, page: filter?.page });
+  } = useGetAllAdminsQuery({
+    limit: filter?.limit,
+    page: filter?.page,
+    search: filter.search_query,
+  });
 
   useEffect(() => {
     if (custumers) {
       setUsers(custumers?.data);
     }
   }, [custumers]);
+
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setFilter({ ...filter, page: 1, search_query: search });
+    }, 500);
+    return () => clearTimeout(time);
+  }, [search]);
 
   if (isLoading) return <PageLoading />;
   if (error) {
@@ -138,10 +148,8 @@ const Admins = () => {
             </defs>
           </svg>
           <input
-            value={filter.search_query}
-            onChange={(e) =>
-              setFilter({ ...filter, search_query: e.target.value })
-            }
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             type="text"
             className="w-full border-none outline-none h-[38px] pl-4 text-[14px] font-[600] text-black "
             placeholder="Gözleg"

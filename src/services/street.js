@@ -28,7 +28,7 @@ export const streetApi = createApi({
 
     // 2. Get all streets
     getAllStreets: builder.query({
-      query: () => "api/streets/",
+      query: (search) => `api/streets/?search=${search}`,
       providesTags: ["Street"],
     }),
 

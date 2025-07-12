@@ -28,7 +28,16 @@ const MessageSend = () => {
     sort: "default",
   });
 
-  const { data, error, isLoading } = useGetAllMessageSentsQuery();
+  const [search, setSearch] = useState("");
+
+  const { data, error, isLoading } = useGetAllMessageSentsQuery(search);
+
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setSearch(filter.search_query);
+    }, 500);
+    return () => clearTimeout(time);
+  }, [filter]);
 
   if (isLoading) return <PageLoading />;
   if (error) {

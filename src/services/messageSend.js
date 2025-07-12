@@ -28,7 +28,7 @@ export const messageSendApi = createApi({
 
     // 2. Get all sent messages
     getAllMessageSents: builder.query({
-      query: () => `api/messages/sent`,
+      query: (search) => `api/messages/sent?search=${search}`,
       providesTags: ["MessageSend"],
     }),
 

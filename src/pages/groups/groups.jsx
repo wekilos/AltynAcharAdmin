@@ -20,6 +20,7 @@ const Categories = () => {
   const [allSelected, setAllSelected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isDelete, setISDelete] = useState(false);
+  const [search, setSearch] = useState("");
   const [filter, setFilter] = useState({
     limit: 10,
     page: 1,
@@ -27,7 +28,14 @@ const Categories = () => {
     sort: "default",
   });
 
-  const { data, error, isLoading } = useGetAllGroupsQuery();
+  const { data, error, isLoading } = useGetAllGroupsQuery(search);
+
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setSearch(filter.search_query);
+    }, 500);
+    return () => clearTimeout(time);
+  }, [filter]);
 
   if (isLoading) return <PageLoading />;
   if (error) {

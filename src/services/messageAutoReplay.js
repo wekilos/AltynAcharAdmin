@@ -28,7 +28,7 @@ export const messageAutoReplyApi = createApi({
 
     // 2. Get all auto replies
     getAllAutoReplies: builder.query({
-      query: () => "api/message-auto-replies/",
+      query: (search) => `api/message-auto-replies/?search=${search}`,
       providesTags: ["AutoReply"],
     }),
 

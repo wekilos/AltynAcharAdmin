@@ -28,7 +28,7 @@ export const messageTemplateApi = createApi({
 
     // 2. Get all message templates
     getAllMessageTemplates: builder.query({
-      query: () => `api/message-templates/`,
+      query: (search) => `api/message-templates/?search=${search}`,
       providesTags: ["MessageTemplate"],
     }),
 

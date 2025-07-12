@@ -28,7 +28,8 @@ export const adminApi = createApi({
 
     // 2. Get all admins
     getAllAdmins: builder.query({
-      query: () => `api/user/`,
+      query: ({ search, limit, page }) =>
+        `api/user/?page=${page}&limit=${limit}&search=${search}`,
       providesTags: ["Admin"],
     }),
 

@@ -27,7 +27,16 @@ const AutoMessage = () => {
     sort: "default",
   });
 
-  const { data, error, isLoading } = useGetAllAutoRepliesQuery();
+  const [search, setSearch] = useState("");
+
+  const { data, error, isLoading } = useGetAllAutoRepliesQuery(search);
+
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setSearch(filter.search_query);
+    }, 500);
+    return () => clearTimeout(time);
+  }, [filter]);
 
   if (isLoading) return <PageLoading />;
   if (error) {

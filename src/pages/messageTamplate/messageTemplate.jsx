@@ -26,8 +26,16 @@ const MessageTemplate = () => {
     search_query: "",
     sort: "default",
   });
+  const [search, setSearch] = useState("");
 
-  const { data, error, isLoading } = useGetAllMessageTemplatesQuery();
+  const { data, error, isLoading } = useGetAllMessageTemplatesQuery(search);
+
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setSearch(filter.search_query);
+    }, 500);
+    return () => clearTimeout(time);
+  }, [filter]);
 
   if (isLoading) return <PageLoading />;
   if (error) {

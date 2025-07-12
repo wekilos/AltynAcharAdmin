@@ -28,7 +28,7 @@ export const groupApi = createApi({
 
     // 2. Get all groups
     getAllGroups: builder.query({
-      query: () => "api/group/",
+      query: (search) => `api/group/?search=${search}`,
       providesTags: ["Group"],
     }),
 

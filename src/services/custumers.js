@@ -18,8 +18,10 @@ export const customerApi = createApi({
   endpoints: (builder) => ({
     // 1. Get all customers
     getAllCustomers: builder.query({
-      query: ({ limit, page }) =>
-        `api/customers/?limit=${limit ? limit : 10}&page=${page ? page : 1}`,
+      query: ({ limit, page, search }) =>
+        `api/customers/?limit=${limit ? limit : 10}&page=${
+          page ? page : 1
+        }&search=${search}`,
       providesTags: ["Customer"],
     }),
 

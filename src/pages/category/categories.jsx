@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Select, { selectClasses } from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Button from "@mui/joy/Button";
@@ -20,14 +20,26 @@ const Categories = () => {
   const [allSelected, setAllSelected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isDelete, setISDelete] = useState(false);
+  const [search, setSearch] = useState("");
   const [filter, setFilter] = useState({
     limit: 10,
     page: 1,
-    search_query: "",
+    search: "",
     sort: "default",
   });
 
-  const { data, error, isLoading } = useGetAllCategoriesQuery();
+  const { data, error, isLoading } = useGetAllCategoriesQuery(
+    search
+    //    {
+    //   skip: true, // Don't auto-fetch on mount
+    // }
+  );
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setSearch(filter.search);
+    }, 500);
+    return () => clearTimeout(time);
+  }, [filter]);
 
   if (isLoading) return <PageLoading />;
   if (error) {
@@ -160,10 +172,8 @@ const Categories = () => {
             </defs>
           </svg>
           <input
-            value={filter.search_query}
-            onChange={(e) =>
-              setFilter({ ...filter, search_query: e.target.value })
-            }
+            value={filter.search}
+            onChange={(e) => setFilter({ ...filter, search: e.target.value })}
             type="text"
             className="w-full border-none outline-none h-[38px] pl-4 text-[14px] font-[600] text-black "
             placeholder="Gözleg"

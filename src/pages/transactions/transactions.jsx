@@ -30,16 +30,28 @@ const Sargytlar = () => {
   const [filter, setFilter] = useState({
     limit: 10,
     page: 1,
+    search: "",
+    type: "",
     startDate: dayjs().format("DD-MM-YYYY"),
     endDate: dayjs().format("DD-MM-YYYY"),
   });
+  const [search, setSearch] = useState("");
 
   const { data, error, isLoading } = useGetFilteredTransactionsQuery({
     page: filter?.page,
     limit: filter?.limit,
+    search: filter?.search,
+    type: filter?.type,
     startDate: dayjs(filter?.startDate).format("YYYY-MM-DD"),
     endDate: dayjs(filter?.endDate).format("YYYY-MM-DD"),
   });
+
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setFilter({ ...filter, search: search });
+    }, 500);
+    return () => clearTimeout(time);
+  }, [search]);
 
   if (isLoading) return <PageLoading />;
   if (error) {
@@ -120,6 +132,26 @@ const Sargytlar = () => {
       <div className="w-full pb-[15px] flex justify-between items-center">
         <h1 className="text-[30px] font-[700]">Sargytlar</h1>
         <div className="w-fit flex gap-5">
+          {/* cashback */}
+          {/* payment */}
+          <Select
+            onChange={(e, value) => setFilter({ ...filter, type: value })}
+            placeholder="Hemmesini görkez"
+            className="!border-[#E9EBF0] !border-[1px] !h-[40px] !bg-white !rounded-[8px] !px-[17px] !w-fit !min-w-[200px] !text-[14px] !text-black  "
+            indicator={<KeyboardArrowDown className="!text-[16px]" />}
+            sx={{
+              [`& .${selectClasses.indicator}`]: {
+                transition: "0.2s",
+                [`&.${selectClasses.expanded}`]: {
+                  transform: "rotate(-180deg)",
+                },
+              },
+            }}
+          >
+            <Option value="">Hemmesini görkez</Option>
+            <Option value="payment">Töleg görä</Option>
+            <Option value="cashback">cashback göra</Option>
+          </Select>
           <RangePicker
             // locale={tkTK}
             // presets={rangePresets}
@@ -156,6 +188,44 @@ const Sargytlar = () => {
 
       {/*  Table*/}
       <div className="w-full p-5 bg-white rounded-[8px]">
+        {/* Table search */}
+        <div className="w-full mb-4 flex items-center px-4 h-[40px] rounded-[6px] border-[1px] border-[#E9EBF0]">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clipPath="url(#clip0_0_1937)">
+              <circle
+                cx="7.66683"
+                cy="7.66659"
+                r="6.33333"
+                stroke="#C7CED9"
+                strokeWidth="2"
+              />
+              <path
+                d="M12.3335 12.3333L14.6668 14.6666"
+                stroke="#C7CED9"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_0_1937">
+                <rect width="16" height="16" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            type="text"
+            className="w-full border-none outline-none h-[38px] pl-4 text-[14px] font-[600] text-black "
+            placeholder="Gözleg"
+          />
+        </div>
         {/* Table header */}
         <div className="w-full gap-[20px] flex items-center px-4 h-[40px] rounded-[6px] bg-[#F7F8FA]">
           <h1 className="text-[14px] whitespace-nowrap font-[500] text-[#98A2B2] w-[25%] uppercase">
