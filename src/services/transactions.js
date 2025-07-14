@@ -19,7 +19,7 @@ export const transactionApi = createApi({
     getFilteredTransactions: builder.query({
       // Parametr hökmünde sorag parametrlerini geçireris:
       query: ({ page = 1, limit = 10, startDate, endDate, search, type }) =>
-        `api/transaction/all/filters?page=${page}&limit=${limit}&startDate=${startDate}&endDate=${endDate}&title=${search}&type=${type}`,
+        `api/transaction/all?page=${page}&limit=${limit}&startDate=${startDate}&endDate=${endDate}&title=${search}&type=${type}`,
       providesTags: ["Transaction"],
     }),
 

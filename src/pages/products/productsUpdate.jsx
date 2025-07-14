@@ -8,7 +8,9 @@ import { IconButton, Input } from "@mui/joy";
 import Typography from "@mui/joy/Typography";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import WarningIcon from "@mui/icons-material/Warning";
-import Button from "@mui/joy/Button";
+// import Button from "@mui/joy/Button";
+
+import { Button, Popconfirm } from "antd";
 import { useHistory, useParams } from "react-router-dom";
 import moment from "moment";
 import Modal from "@mui/joy/Modal";
@@ -18,6 +20,7 @@ import { validateEmail } from "../../utils/validator";
 import {
   useGetProductByIdQuery,
   useUpdateProductMutation,
+  useDeleteProductMutation,
 } from "../../services/products";
 import {
   useGetVariantsByProductQuery,
@@ -47,11 +50,12 @@ const ProductsUpdate = () => {
 
   const { data: productData, error, isLoading } = useGetProductByIdQuery(id);
   const { data: varriantss } = useGetVariantsByProductQuery(id);
-  const { data: categoriesData } = useGetAllCategoriesQuery();
+  const { data: categoriesData } = useGetAllCategoriesQuery("");
   const [updateProduct] = useUpdateProductMutation();
   const [updateVariant] = useUpdateVariantMutation();
   const [deleteVariant] = useDeleteVariantMutation();
   const [createVariant] = useCreateVariantMutation();
+  const [deleteProduct] = useDeleteProductMutation();
   const [product, setProduct] = useState();
 
   useEffect(() => {
@@ -265,6 +269,30 @@ const ProductsUpdate = () => {
                 </div>
               )}
             </div>
+          </div>
+          <div className="w-[49%] flex justify-between">
+            <div className="w-[380px]">
+              <h1 className="text-[18px] font-[500]">Harydy poz</h1>
+              <p className="text-[14px] mt-2 font-[500] text-[#98A2B2]">
+                Harydy pozmak
+              </p>
+            </div>
+            <Popconfirm
+              title="Maglumaty pozmak!"
+              description="Siz çyndan pozmak isleýärsiňizmi?"
+              onConfirm={async () => {
+                const respons = await deleteProduct(id);
+                console.log(respons);
+                respons?.data?.status == 200
+                  ? history.goBack()
+                  : message.warning(respons.error.data.message);
+              }}
+              // onCancel={cancel}
+              okText="Hawa"
+              cancelText="Ýok"
+            >
+              <Button danger>Pozmak</Button>
+            </Popconfirm>
           </div>
         </div>
 

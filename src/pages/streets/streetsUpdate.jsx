@@ -11,7 +11,9 @@ import PageLoading from "../../components/PageLoading";
 import {
   useUpdateStreetMutation,
   useGetStreetQuery,
+  useDeleteStreetMutation,
 } from "../../services/street";
+import { Button, Popconfirm } from "antd";
 import { message } from "antd";
 
 const CategoryUpdate = () => {
@@ -26,6 +28,7 @@ const CategoryUpdate = () => {
 
   const { data: categoryData, error, isLoading } = useGetStreetQuery(id);
   const [updateStreet] = useUpdateStreetMutation();
+  const [deleteStreet] = useDeleteStreetMutation();
 
   useEffect(() => {
     if (categoryData) {
@@ -112,6 +115,31 @@ const CategoryUpdate = () => {
               type="text"
             />
           </div>
+        </div>
+
+        <div className="w-[49%] flex justify-between">
+          <div className="w-[380px]">
+            <h1 className="text-[18px] font-[500]">Köçe poz</h1>
+            <p className="text-[14px] mt-2 font-[500] text-[#98A2B2]">
+              Köçe pozmak
+            </p>
+          </div>
+          <Popconfirm
+            title="Maglumaty pozmak!"
+            description="Siz çyndan pozmak isleýärsiňizmi?"
+            onConfirm={async () => {
+              const respons = await deleteStreet(id);
+              console.log(respons);
+              respons?.data?.status == 200
+                ? history.goBack()
+                : message.warning(respons.error.data.message);
+            }}
+            // onCancel={cancel}
+            okText="Hawa"
+            cancelText="Ýok"
+          >
+            <Button danger>Pozmak</Button>
+          </Popconfirm>
         </div>
       </div>
       <div className="sticky bottom-0 py-2 bg-[#F7F8FA] w-full">

@@ -11,8 +11,10 @@ import PageLoading from "../../components/PageLoading";
 import {
   useUpdateAutoReplyMutation,
   useGetAutoReplyQuery,
+  useDeleteAutoReplyMutation,
 } from "../../services/messageAutoReplay";
 import { message } from "antd";
+import { Button, Popconfirm } from "antd";
 
 const AutoMessageUpdate = () => {
   const history = useHistory();
@@ -26,6 +28,7 @@ const AutoMessageUpdate = () => {
 
   const { data: categoryData, error, isLoading } = useGetAutoReplyQuery(id);
   const [updateAutoReply] = useUpdateAutoReplyMutation();
+  const [deleteAutoReply] = useDeleteAutoReplyMutation();
 
   useEffect(() => {
     if (categoryData) {
@@ -83,7 +86,7 @@ const AutoMessageUpdate = () => {
       )}
       {/* header section */}
       <div className="w-full pb-[30px] flex justify-between items-center">
-        <h1 className="text-[30px] font-[700]">Auro SMS habar</h1>
+        <h1 className="text-[30px] font-[700]">Auto SMS habar</h1>
       </div>
 
       <div className="w-full min-h-[60vh] p-5 bg-white rounded-[8px]">
@@ -130,6 +133,31 @@ const AutoMessageUpdate = () => {
               type="text"
             />
           </div>
+        </div>
+
+        <div className="w-[49%] flex justify-between">
+          <div className="w-[380px]">
+            <h1 className="text-[18px] font-[500]">Auto SMS habar poz</h1>
+            <p className="text-[14px] mt-2 font-[500] text-[#98A2B2]">
+              Auto SMS habary pozmak
+            </p>
+          </div>
+          <Popconfirm
+            title="Maglumaty pozmak!"
+            description="Siz çyndan pozmak isleýärsiňizmi?"
+            onConfirm={async () => {
+              const respons = await deleteAutoReply(id);
+              console.log(respons);
+              respons?.data?.status == 200
+                ? history.goBack()
+                : message.warning(respons.error.data.message);
+            }}
+            // onCancel={cancel}
+            okText="Hawa"
+            cancelText="Ýok"
+          >
+            <Button danger>Pozmak</Button>
+          </Popconfirm>
         </div>
       </div>
       <div className="sticky bottom-0 py-2 bg-[#F7F8FA] w-full">

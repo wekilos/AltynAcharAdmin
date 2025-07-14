@@ -8,8 +8,13 @@ import WarningIcon from "@mui/icons-material/Warning";
 import { axiosInstance } from "../../utils/axiosIntance";
 import { useHistory, useParams } from "react-router-dom";
 import PageLoading from "../../components/PageLoading";
-import { useUpdateGroupMutation, useGetGroupQuery } from "../../services/group";
+import {
+  useUpdateGroupMutation,
+  useGetGroupQuery,
+  useDeleteGroupMutation,
+} from "../../services/group";
 import { message } from "antd";
+import { Button, Popconfirm } from "antd";
 
 const CategoryUpdate = () => {
   const history = useHistory();
@@ -26,6 +31,7 @@ const CategoryUpdate = () => {
 
   const { data: categoryData, error, isLoading } = useGetGroupQuery(id);
   const [updateGroup] = useUpdateGroupMutation();
+  const [deleteGroup] = useDeleteGroupMutation();
 
   useEffect(() => {
     if (categoryData) {
@@ -133,6 +139,30 @@ const CategoryUpdate = () => {
               type="number"
             />
           </div>
+        </div>
+        <div className="w-[49%] flex justify-between">
+          <div className="w-[380px]">
+            <h1 className="text-[18px] font-[500]">Topary poz</h1>
+            <p className="text-[14px] mt-2 font-[500] text-[#98A2B2]">
+              Topary pozmak
+            </p>
+          </div>
+          <Popconfirm
+            title="Maglumaty pozmak!"
+            description="Siz çyndan pozmak isleýärsiňizmi?"
+            onConfirm={async () => {
+              const respons = await deleteGroup(id);
+              console.log(respons);
+              respons?.data?.status == 200
+                ? history.goBack()
+                : message.warning(respons.error.data.message);
+            }}
+            // onCancel={cancel}
+            okText="Hawa"
+            cancelText="Ýok"
+          >
+            <Button danger>Pozmak</Button>
+          </Popconfirm>
         </div>
       </div>
       <div className="sticky bottom-0 py-2 bg-[#F7F8FA] w-full">

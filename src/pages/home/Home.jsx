@@ -127,17 +127,31 @@ const Home = () => {
             Günlük söwda
           </h2>
           <ul className="divide-y divide-gray-200">
-            {daily &&
-              Object.entries(daily)
-                .sort((a, b) => new Date(b[0]) - new Date(a[0]))
-                .map(([date, total]) => (
-                  <li key={date} className="py-2 flex justify-between">
-                    <span className="text-gray-700">{date}</span>
-                    <span className="font-bold text-blue-600">
-                      {total.toFixed(2)} TMT
-                    </span>
-                  </li>
-                ))}
+            <li key={"header"} className="py-2 flex justify-between">
+              <span className=" w-[33%] font-bold">Sene</span>
+              <span className="font-bold text-blue-600 w-[33%]">
+                Cashbacks TMT
+              </span>
+              <span className="font-bold text-blue-600 w-[33%]">
+                Jemi söwda TMT
+              </span>
+            </li>
+            {
+              // daily &&
+              //   Object.entries(daily)
+              //     .sort((a, b) => new Date(b[0]) - new Date(a[0]))
+              salesData?.data?.daily_sales.map((item) => (
+                <li key={item?.date} className="py-2 flex justify-between">
+                  <span className="text-gray-700  w-[33%]">{item?.date}</span>
+                  <span className="font-[700] text-blue-600  w-[33%]">
+                    {item?.total_cashbacks.toFixed(2)} TMT
+                  </span>
+                  <span className="font-[700] text-blue-600  w-[33%]">
+                    {item?.total_sales.toFixed(2)} TMT
+                  </span>
+                </li>
+              ))
+            }
           </ul>
         </div>
       </div>

@@ -32,8 +32,8 @@ const UserCreate = () => {
     group: "",
   });
 
-  const { data: streets } = useGetAllStreetsQuery();
-  const { data: groups } = useGetAllGroupsQuery();
+  const { data: streets } = useGetAllStreetsQuery("");
+  const { data: groups } = useGetAllGroupsQuery("");
   const [createCustomer] = useCreateCustomerMutation();
 
   const createUser = async () => {

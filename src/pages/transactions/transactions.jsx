@@ -13,7 +13,7 @@ import PageLoading from "../../components/PageLoading";
 
 import userPicture from "../../images/user.png";
 import { useGetFilteredTransactionsQuery } from "../../services/transactions";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 import { DatePicker } from "antd";
 
@@ -32,8 +32,8 @@ const Sargytlar = () => {
     page: 1,
     search: "",
     type: "",
-    startDate: dayjs().format("DD-MM-YYYY"),
-    endDate: dayjs().format("DD-MM-YYYY"),
+    startDate: dayjs().subtract(1, "day"),
+    endDate: dayjs(),
   });
   const [search, setSearch] = useState("");
 
@@ -155,10 +155,10 @@ const Sargytlar = () => {
           <RangePicker
             // locale={tkTK}
             // presets={rangePresets}
-            defaultValue={[
-              dayjs(filter?.startDate, "DD-MM-YYYY"),
-              dayjs(filter?.endDate, "DD-MM-YYYY"),
-            ]}
+            // defaultValue={[
+            //   dayjs(filter?.startDate, "DD-MM-YYYY"),
+            //   dayjs(filter?.endDate, "DD-MM-YYYY"),
+            // ]}
             value={[
               dayjs(filter.startDate, "DD-MM-YYYY"),
               dayjs(filter.endDate, "DD-MM-YYYY"),
@@ -175,13 +175,13 @@ const Sargytlar = () => {
             }}
             format={"DD-MM-YYYY"}
           />
-          <Button
+          {/* <Button
             onClick={() => history.push({ pathname: "/transactions/create" })}
             className="  !h-[40px] !bg-blue !rounded-[8px] !px-[17px] !w-fit   !text-[14px] !text-white  "
             startDecorator={<Add />}
           >
             Sargyt döret
-          </Button>
+          </Button> */}
           {/* <button className="h-[40px] border-[#E9EBF0] border-[1px] rounded-[8px]"></button> */}
         </div>
       </div>

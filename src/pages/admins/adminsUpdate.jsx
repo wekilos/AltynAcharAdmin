@@ -12,8 +12,13 @@ import { useHistory, useParams } from "react-router-dom";
 import Modal from "@mui/joy/Modal";
 import Sheet from "@mui/joy/Sheet";
 import PageLoading from "../../components/PageLoading";
-import { useUpdateAdminMutation, useGetAdminQuery } from "../../services/admin";
+import {
+  useUpdateAdminMutation,
+  useGetAdminQuery,
+  useDeleteAdminMutation,
+} from "../../services/admin";
 import { message } from "antd";
+import { Button, Popconfirm } from "antd";
 
 const AdminsUpdate = () => {
   const history = useHistory();
@@ -28,6 +33,7 @@ const AdminsUpdate = () => {
   const [newPassword, setNewPassword] = useState("");
 
   const [updateAdmin] = useUpdateAdminMutation();
+  const [deleteAdmin] = useDeleteAdminMutation();
   const { data: custumers, error, isLoading } = useGetAdminQuery(id);
 
   useEffect(() => {
@@ -173,6 +179,31 @@ const AdminsUpdate = () => {
               }
             />
           </div>
+        </div>
+
+        <div className="w-full flex justify-between">
+          <div className="w-[380px]">
+            <h1 className="text-[18px] font-[500]"> Admin poz</h1>
+            <p className="text-[14px] mt-2 font-[500] text-[#98A2B2]">
+              Admin pozmak
+            </p>
+          </div>
+          <Popconfirm
+            title="Maglumaty pozmak!"
+            description="Siz çyndan pozmak isleýärsiňizmi?"
+            onConfirm={async () => {
+              const respons = await deleteAdmin(id);
+              console.log(respons);
+              respons?.data?.status == 200
+                ? history.goBack()
+                : message.warning(respons.error.data.message);
+            }}
+            // onCancel={cancel}
+            okText="Hawa"
+            cancelText="Ýok"
+          >
+            <Button danger>Pozmak</Button>
+          </Popconfirm>
         </div>
       </div>
       <div className="sticky bottom-0 py-2 bg-[#F7F8FA] w-full">

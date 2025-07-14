@@ -5,12 +5,13 @@ import IconButton from "@mui/joy/IconButton";
 import Typography from "@mui/joy/Typography";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import WarningIcon from "@mui/icons-material/Warning";
-import { axiosInstance } from "../../utils/axiosIntance";
+import { Button, Popconfirm } from "antd";
 import { useHistory, useParams } from "react-router-dom";
 import PageLoading from "../../components/PageLoading";
 import {
   useUpdateCategoryMutation,
   useGetCategoryByIdQuery,
+  useDeleteCategoryMutation,
 } from "../../services/category";
 import { message } from "antd";
 
@@ -29,6 +30,7 @@ const CategoryUpdate = () => {
 
   const { data: categoryData, error, isLoading } = useGetCategoryByIdQuery(id);
   const [updateCategory] = useUpdateCategoryMutation();
+  const [deleteCategory] = useDeleteCategoryMutation();
 
   useEffect(() => {
     if (categoryData) {
@@ -342,6 +344,33 @@ const CategoryUpdate = () => {
               placeholder="Adyny giriz"
               type="text"
             />
+          </div>
+        </div>
+
+        <div className="flex items-center border-t-[1px] justify-between py-[30px]">
+          <div className="w-[380px]">
+            <h1 className="text-[18px] font-[500]">Kategoriýany poz</h1>
+            <p className="text-[14px] mt-2 font-[500] text-[#98A2B2]">
+              Kategoriýany pozmak
+            </p>
+          </div>
+          <div className="flex justify-start w-[550px]">
+            <Popconfirm
+              title="Maglumaty pozmak!"
+              description="Siz çyndan pozmak isleýärsiňizmi?"
+              onConfirm={async () => {
+                const respons = await deleteCategory(id);
+                console.log(respons);
+                respons?.data?.status == 200
+                  ? history.goBack()
+                  : message.warning(respons.error.data.message);
+              }}
+              // onCancel={cancel}
+              okText="Hawa"
+              cancelText="Ýok"
+            >
+              <Button danger>Pozmak</Button>
+            </Popconfirm>
           </div>
         </div>
       </div>

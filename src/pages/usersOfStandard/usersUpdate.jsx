@@ -2,24 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import Switch from "@mui/joy/Switch";
 import Select, { selectClasses } from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
-import { KeyboardArrowDown, Add } from "@mui/icons-material";
-import Alert from "@mui/joy/Alert";
-import { IconButton, Input } from "@mui/joy";
-import Typography from "@mui/joy/Typography";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import WarningIcon from "@mui/icons-material/Warning";
+import { KeyboardArrowDown } from "@mui/icons-material";
 import { useHistory, useParams } from "react-router-dom";
-import Modal from "@mui/joy/Modal";
-import Sheet from "@mui/joy/Sheet";
 import PageLoading from "../../components/PageLoading";
 import {
   useUpdateCustomerMutation,
   useGetCustomerQuery,
+  useDeleteCustomerMutation,
 } from "../../services/custumers";
 import { useGetAllGroupsQuery } from "../../services/group";
 import { useGetAllStreetsQuery } from "../../services/street";
 import { message } from "antd";
 import dayjs from "dayjs";
+import { Button, Popconfirm } from "antd";
 
 const CustumerUpdate = () => {
   const history = useHistory();
@@ -39,9 +34,10 @@ const CustumerUpdate = () => {
 
   const { data: custumer, error, isLoading } = useGetCustomerQuery(id);
 
-  const { data: streets } = useGetAllStreetsQuery();
-  const { data: groups } = useGetAllGroupsQuery();
+  const { data: streets } = useGetAllStreetsQuery("");
+  const { data: groups } = useGetAllGroupsQuery("");
   const [updateCustomer] = useUpdateCustomerMutation();
+  const [deleteCustomer] = useDeleteCustomerMutation();
 
   useEffect(() => {
     if (custumer) {
@@ -290,6 +286,31 @@ const CustumerUpdate = () => {
               placeholder="Girizilmedik"
             />
           </div>
+        </div>
+
+        <div className="w-full flex justify-between">
+          <div className="w-[380px]">
+            <h1 className="text-[18px] font-[500]"> Ulanyjy poz</h1>
+            <p className="text-[14px] mt-2 font-[500] text-[#98A2B2]">
+              Ulanyjy pozmak
+            </p>
+          </div>
+          <Popconfirm
+            title="Maglumaty pozmak!"
+            description="Siz çyndan pozmak isleýärsiňizmi?"
+            onConfirm={async () => {
+              const respons = await deleteCustomer(id);
+              console.log(respons);
+              respons?.data?.status == 200
+                ? history.goBack()
+                : message.warning(respons.error.data.message);
+            }}
+            // onCancel={cancel}
+            okText="Hawa"
+            cancelText="Ýok"
+          >
+            <Button danger>Pozmak</Button>
+          </Popconfirm>
         </div>
       </div>
       <div className="sticky bottom-0 py-2 bg-[#F7F8FA] w-full">

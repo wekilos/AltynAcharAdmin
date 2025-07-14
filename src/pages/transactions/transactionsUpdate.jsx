@@ -19,17 +19,16 @@ import {
   useDeleteTransactionMutation,
 } from "../../services/transactions";
 import { message } from "antd";
+import dayjs from "dayjs";
 
 const TransactionsUpdate = () => {
   const { id } = useParams();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [brands, setBrands] = useState([]);
+  const [tran, setTran] = useState({});
   const [bigPostPicture, setBigPostPicture] = useState(null);
-  const [post, setPost] = useState({
-    is_active: 1,
-  });
+
   const [stockOpen, setStockOpen] = useState(false);
 
   const fileRef = useRef(null);
@@ -37,11 +36,21 @@ const TransactionsUpdate = () => {
 
   const [deleteTransaction] = useDeleteTransactionMutation();
 
-  const { data, isLoading, error } = useGetTransactionByIdQuery(id);
+  const {
+    data: TransactionData,
+    isLoading,
+    error,
+  } = useGetTransactionByIdQuery(id);
+
+  useEffect(() => {
+    if (TransactionData) {
+      setTran(TransactionData?.data);
+    }
+  }, [TransactionData]);
 
   if (isLoading) return <PageLoading />;
   if (error) return <div>Ýalňyşlyk boldy</div>;
-  console.log(data);
+  console.log(TransactionData);
 
   const updateTransaction = () => {};
 
@@ -101,9 +110,9 @@ const TransactionsUpdate = () => {
           <div className="w-[49%]">
             <h1 className="text-[16px] font-[500]">Müşderiniň ady</h1>
             <input
-              value={post?.caption}
+              value={tran?.customer?.first_name}
               // onChange={(e) => {
-              //   setPost({ ...post, caption: e.target.value });
+              //   setTran({ ...tran, caption: e.target.value });
               // }}
               className="text-[14px] w-full mt-1 text-black font-[400]  border-[1px] border-[#98A2B2] rounded-[6px] px-5 py-3 outline-none "
               placeholder="Girizilmedik"
@@ -113,9 +122,9 @@ const TransactionsUpdate = () => {
           <div className="w-[49%]">
             <h1 className="text-[16px] font-[500]">Müşderiniň familýasy</h1>
             <input
-              value={post?.caption}
+              value={tran?.customer?.last_name}
               // onChange={(e) => {
-              //   setPost({ ...post, caption: e.target.value });
+              //   setTran({ ...tran, caption: e.target.value });
               // }}
               className="text-[14px] w-full mt-1 text-black font-[400]  border-[1px] border-[#98A2B2] rounded-[6px] px-5 py-3 outline-none "
               placeholder="Girizilmedik"
@@ -128,9 +137,9 @@ const TransactionsUpdate = () => {
           <div className="w-[49%]">
             <h1 className="text-[16px] font-[500]">Müşderiniň telefony</h1>
             <input
-              value={post?.caption}
+              value={tran?.customer?.phone_number}
               // onChange={(e) => {
-              //   setPost({ ...post, caption: e.target.value });
+              //   setTran({ ...tran, caption: e.target.value });
               // }}
               className="text-[14px] w-full mt-1 text-black font-[400]  border-[1px] border-[#98A2B2] rounded-[6px] px-5 py-3 outline-none "
               placeholder="Girizilmedik"
@@ -140,9 +149,9 @@ const TransactionsUpdate = () => {
           <div className="w-[49%]">
             <h1 className="text-[16px] font-[500]">Müşderiniň salgysy</h1>
             <input
-              value={post?.caption}
+              value={tran?.customer?.street?.title}
               // onChange={(e) => {
-              //   setPost({ ...post, caption: e.target.value });
+              //   setTran({ ...tran, caption: e.target.value });
               // }}
               className="text-[14px] w-full mt-1 text-black font-[400]  border-[1px] border-[#98A2B2] rounded-[6px] px-5 py-3 outline-none "
               placeholder="Girizilmedik"
@@ -153,12 +162,12 @@ const TransactionsUpdate = () => {
 
         <div className="flex items-center   justify-between py-[15px]">
           <div className="w-[49%]">
-            <h1 className="text-[16px] font-[500]"> Bahasy</h1>
+            <h1 className="text-[16px] font-[500]"> Bahasy TMT</h1>
             <input
-              value={post?.price + " TMT"}
+              value={tran?.transaction?.amount}
               // onChange={(e) => {
-              //   setPost({
-              //     ...post,
+              //   setTran({
+              //     ...tran,
               //     price: e.target.value,
               //   });
               // }}
@@ -170,9 +179,9 @@ const TransactionsUpdate = () => {
           <div className="w-[49%]">
             <h1 className="text-[16px] font-[500]">Cashback</h1>
             <input
-              value={post?.user}
+              value={tran?.transaction?.cashback}
               // onChange={(e) => {
-              //   setPost({ ...post, phone: e.target.value });
+              //   setTran({ ...tran, phone: e.target.value });
               // }}
               className="text-[14px] w-full mt-1 text-black font-[400]  border-[1px] border-[#98A2B2] rounded-[6px] px-5 py-3 outline-none "
               placeholder="Girizilmedik"
@@ -186,13 +195,13 @@ const TransactionsUpdate = () => {
             <h1 className="text-[16px] font-[500]">Töleg görnüşi</h1>
 
             <div className="text-[14px] text-[#98A2B2] font-[400] mt-2">
-              Girizilmedik
+              {tran?.transaction?.title}
             </div>
           </div>
           <div className="w-[49%]">
             <h1 className="text-[16px] font-[500]">Sargyt wagty</h1>
             <div className="text-[14px] text-[#98A2B2] font-[400] mt-2">
-              Girizilmedik
+              {dayjs(tran?.transaction?.date).format("DD-MM-YYYY HH:MM")}
             </div>
           </div>
         </div>
@@ -214,7 +223,7 @@ const TransactionsUpdate = () => {
             </div>
           </div>
 
-          {post?.product?.options?.colors?.map((item, i) => {
+          {tran?.product?.options?.colors?.map((item, i) => {
             return (
               <div
                 key={"colors" + i}
@@ -276,9 +285,9 @@ const TransactionsUpdate = () => {
               Soňky düzediş
             </h1>
             <h1 className="text-[14px] font-[400]">
-              {post?.created_at?.slice(0, 10) +
+              {tran?.created_at?.slice(0, 10) +
                 " / " +
-                post?.created_at?.slice(11, 16)}
+                tran?.created_at?.slice(11, 16)}
             </h1>
           </div>
           <div className="w-fit flex gap-6 items-center ">

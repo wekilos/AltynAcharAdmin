@@ -39,7 +39,7 @@ const ProductsCreate = () => {
   const fileRef = useRef(null);
   const [warning, setWarning] = useState(false);
 
-  const { data: categoriesData } = useGetAllCategoriesQuery();
+  const { data: categoriesData } = useGetAllCategoriesQuery("");
   const { data: varriants } = useGetVariantsByProductQuery();
   const [createProduct] = useCreateProductMutation();
   const [createVariant] = useCreateVariantMutation();

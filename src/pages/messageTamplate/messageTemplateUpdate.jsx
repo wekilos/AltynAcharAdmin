@@ -11,8 +11,10 @@ import PageLoading from "../../components/PageLoading";
 import {
   useUpdateMessageTemplateMutation,
   useGetMessageTemplateQuery,
+  useDeleteMessageTemplateMutation,
 } from "../../services/messageTamplate";
 import { message } from "antd";
+import { Button, Popconfirm } from "antd";
 
 const MessageTemplateUpdate = () => {
   const history = useHistory();
@@ -31,6 +33,7 @@ const MessageTemplateUpdate = () => {
     isLoading,
   } = useGetMessageTemplateQuery(id);
   const [updateMessageTemplate] = useUpdateMessageTemplateMutation();
+  const [deleteMessageTemplate] = useDeleteMessageTemplateMutation();
 
   useEffect(() => {
     if (categoryData) {
@@ -128,6 +131,31 @@ const MessageTemplateUpdate = () => {
               }
             />
           </div>
+        </div>
+
+        <div className="w-[49%] flex justify-between">
+          <div className="w-[380px]">
+            <h1 className="text-[18px] font-[500]"> SMS nusga poz</h1>
+            <p className="text-[14px] mt-2 font-[500] text-[#98A2B2]">
+              SMS nusga pozmak
+            </p>
+          </div>
+          <Popconfirm
+            title="Maglumaty pozmak!"
+            description="Siz çyndan pozmak isleýärsiňizmi?"
+            onConfirm={async () => {
+              const respons = await deleteMessageTemplate(id);
+              console.log(respons);
+              respons?.data?.status == 200
+                ? history.goBack()
+                : message.warning(respons.error.data.message);
+            }}
+            // onCancel={cancel}
+            okText="Hawa"
+            cancelText="Ýok"
+          >
+            <Button danger>Pozmak</Button>
+          </Popconfirm>
         </div>
       </div>
       <div className="sticky bottom-0 py-2 bg-[#F7F8FA] w-full">

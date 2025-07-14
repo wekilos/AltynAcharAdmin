@@ -11,8 +11,10 @@ import PageLoading from "../../components/PageLoading";
 import {
   useUpdateMessageSendMutation,
   useGetMessageSendQuery,
+  useDeleteMessageSendMutation,
 } from "../../services/messageSend";
 import { message } from "antd";
+import { Button, Popconfirm } from "antd";
 
 const MessageTemplateUpdate = () => {
   const history = useHistory();
@@ -27,6 +29,7 @@ const MessageTemplateUpdate = () => {
 
   const { data: categoryData, error, isLoading } = useGetMessageSendQuery(id);
   const [updateMessageSend] = useUpdateMessageSendMutation();
+  const [deleteMessageSend] = useDeleteMessageSendMutation();
 
   useEffect(() => {
     if (categoryData) {
@@ -57,20 +60,20 @@ const MessageTemplateUpdate = () => {
     <div className="w-full">
       {/* header section */}
       <div className="w-full pb-[30px] flex justify-between items-center">
-        <h1 className="text-[30px] font-[700]"> SMS nusga</h1>
+        <h1 className="text-[30px] font-[700]"> SMS habar</h1>
       </div>
 
       <div className="w-full min-h-[60vh] p-5 bg-white rounded-[8px]">
         <div className=" flex items-center gap-4 pb-5 border-b-[1px] border-b-[#E9EBF0]">
           <div className="border-l-[3px] border-blue h-[20px]"></div>
-          <h1 className="text-[20px] font-[500]">SMS nusga maglumaty</h1>
+          <h1 className="text-[20px] font-[500]">SMS habar maglumaty</h1>
         </div>
 
         <div className="flex items-center border-t-[1px] justify-between py-[30px]">
           <div className="w-[380px]">
-            <h1 className="text-[18px] font-[500]"> SMS nusga</h1>
+            <h1 className="text-[18px] font-[500]"> SMS habar</h1>
             <p className="text-[14px] mt-2 font-[500] text-[#98A2B2]">
-              SMS nusga girizeniň.
+              SMS habar girizeniň.
             </p>
           </div>
           <div className="flex justify-start w-[550px]">
@@ -124,6 +127,31 @@ const MessageTemplateUpdate = () => {
               type="text"
             />
           </div>
+        </div>
+
+        <div className="w-[49%] flex justify-between">
+          <div className="w-[380px]">
+            <h1 className="text-[18px] font-[500]"> SMS habar poz</h1>
+            <p className="text-[14px] mt-2 font-[500] text-[#98A2B2]">
+              SMS habar pozmak
+            </p>
+          </div>
+          <Popconfirm
+            title="Maglumaty pozmak!"
+            description="Siz çyndan pozmak isleýärsiňizmi?"
+            onConfirm={async () => {
+              const respons = await deleteMessageSend(id);
+              console.log(respons);
+              respons?.data?.status == 200
+                ? history.goBack()
+                : message.warning(respons.error.data.message);
+            }}
+            // onCancel={cancel}
+            okText="Hawa"
+            cancelText="Ýok"
+          >
+            <Button danger>Pozmak</Button>
+          </Popconfirm>
         </div>
 
         {/* <div className="flex items-center border-t-[1px] justify-between py-[30px]">
