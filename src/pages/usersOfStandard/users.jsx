@@ -162,7 +162,7 @@ const StandartUsers = () => {
 
         {/* Table header */}
         <div className="w-full gap-[20px] flex items-center px-4 h-[40px] rounded-[6px] bg-[#F7F8FA]">
-          {allSelected ? (
+          {/* {allSelected ? (
             <div
               onClick={() => {
                 setSelecteds([]);
@@ -175,7 +175,7 @@ const StandartUsers = () => {
             <div onClick={() => selectAll()}>
               <CheckBox checked={false} />
             </div>
-          )}
+          )} */}
 
           <h1 className="text-[14px] whitespace-nowrap font-[500] text-[#98A2B2] w-[25%] uppercase">
             Ulanyjy ady
@@ -203,13 +203,13 @@ const StandartUsers = () => {
               key={"categoryItem" + i}
               className="w-full gap-[20px] flex items-center px-4 h-[70px] rounded-[6px] bg-white border-b-[1px] border-[#E9EBF0]"
             >
-              <div onClick={() => selectItem(item?.id)}>
+              {/* <div onClick={() => selectItem(item?.id)}>
                 {isSelected(item?.id) ? (
                   <CheckBox checked={true} />
                 ) : (
                   <CheckBox checked={false} />
                 )}
-              </div>
+              </div> */}
 
               <h1 className="text-[14px] font-[500] text-black w-[25%] uppercase">
                 {item?.first_name + " " + item?.last_name}

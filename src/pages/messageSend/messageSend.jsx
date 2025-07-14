@@ -164,7 +164,7 @@ const MessageSend = () => {
 
         {/* Table header */}
         <div className="w-full gap-[30px] flex items-center px-4 h-[40px] rounded-[6px] bg-[#F7F8FA]">
-          {allSelected ? (
+          {/* {allSelected ? (
             <div
               onClick={() => {
                 setSelecteds([]);
@@ -177,7 +177,7 @@ const MessageSend = () => {
             <div onClick={() => selectAll()}>
               <CheckBox checked={false} />
             </div>
-          )}
+          )} */}
 
           <h1 className="text-[14px] font-[500] text-[#98A2B2] w-[20%] uppercase">
             SMS ady
@@ -207,13 +207,13 @@ const MessageSend = () => {
               key={"categoryItem" + i}
               className="w-full gap-[30px] flex items-center px-4 h-[70px] rounded-[6px] bg-white border-b-[1px] border-[#E9EBF0]"
             >
-              <div onClick={() => selectItem(item?.id)}>
+              {/* <div onClick={() => selectItem(item?.id)}>
                 {isSelected(item?.id) ? (
                   <CheckBox checked={true} />
                 ) : (
                   <CheckBox checked={false} />
                 )}
-              </div>
+              </div> */}
 
               <h1 className="text-[14px] font-[500] text-black w-[20%] uppercase">
                 {item?.title}
