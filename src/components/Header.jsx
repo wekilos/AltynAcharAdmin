@@ -109,7 +109,7 @@ const Header = () => {
       </div>
 
       <div className="flex items-center gap-[27px]">
-        <div className="flex cursor-pointer gap-5 pr-[27px] border-r-[1px] border-[#E9EBF0]">
+        {/* <div className="flex cursor-pointer gap-5 pr-[27px] border-r-[1px] border-[#E9EBF0]">
           <svg
             width="24"
             height="24"
@@ -188,7 +188,7 @@ const Header = () => {
             className="h-[48px] w-full outline-none rounded-[6px]"
             type="text"
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );
