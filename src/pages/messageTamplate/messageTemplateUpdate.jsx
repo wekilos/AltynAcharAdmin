@@ -13,8 +13,9 @@ import {
   useGetMessageTemplateQuery,
   useDeleteMessageTemplateMutation,
 } from "../../services/messageTamplate";
-import { message } from "antd";
+import { DatePicker, message } from "antd";
 import { Button, Popconfirm } from "antd";
+import dayjs from "dayjs";
 
 const MessageTemplateUpdate = () => {
   const history = useHistory();
@@ -105,6 +106,27 @@ const MessageTemplateUpdate = () => {
               value={sms.description}
               onChange={(e) => {
                 setSms({ ...sms, description: e.target.value });
+              }}
+              className="text-[14px] w-full text-black font-[400]  border-[1px] border-[#98A2B2] rounded-[6px] px-5 py-3 outline-none "
+              placeholder="Düşündiriş giriz"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center border-t-[1px] justify-between py-[30px]">
+          <div className="w-[380px]">
+            <h1 className="text-[18px] font-[500]">Sene</h1>
+            <p className="text-[14px] mt-2 font-[500] text-[#98A2B2]">
+              Sene girizeniň.
+            </p>
+          </div>
+          <div className="flex justify-start w-[550px]">
+            <DatePicker
+              value={dayjs(sms.date)}
+              onChange={(e, value) => {
+                console.log(e, value);
+                setSms({ ...sms, date: dayjs(e).format("YYYY-MM-DD") });
               }}
               className="text-[14px] w-full text-black font-[400]  border-[1px] border-[#98A2B2] rounded-[6px] px-5 py-3 outline-none "
               placeholder="Düşündiriş giriz"
