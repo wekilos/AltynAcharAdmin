@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import Pagination from "../../components/pagination";
 import PageLoading from "../../components/PageLoading";
 import { useGetAllMessageTemplatesQuery } from "../../services/messageTamplate";
+import dayjs from "dayjs";
 
 const MessageTemplate = () => {
   const history = useHistory();
@@ -179,15 +180,19 @@ const MessageTemplate = () => {
             </div>
           )} */}
 
-          <h1 className="text-[14px] font-[500] text-[#98A2B2] w-[35%] uppercase">
+          <h1 className="text-[14px] font-[500] text-[#98A2B2] w-[30%] uppercase">
             SMS habar
           </h1>
 
-          <h1 className="text-[14px] font-[500] text-[#98A2B2] w-[35%] min-w-[120px] whitespace-nowrap uppercase">
+          <h1 className="text-[14px] font-[500] text-[#98A2B2] w-[30%] min-w-[120px] whitespace-nowrap uppercase">
             Jogap
           </h1>
 
-          <h1 className="text-[14px] font-[500] text-[#98A2B2] w-[15%] uppercase">
+          <h1 className="text-[14px] font-[500] text-[#98A2B2] w-[20%] min-w-[120px] whitespace-nowrap uppercase">
+            Sene
+          </h1>
+
+          <h1 className="text-[14px] font-[500] text-[#98A2B2] w-[20%] uppercase">
             Status
           </h1>
         </div>
@@ -208,16 +213,25 @@ const MessageTemplate = () => {
                   <CheckBox checked={false} />
                 )}
               </div> */}
-
-              <h1 className="text-[14px] font-[500] text-black w-[35%] uppercase">
+              <h1 className="text-[14px] font-[500] text-black w-[30%] uppercase">
                 {item?.title}
               </h1>
-
-              <h1 className="text-[14px] font-[500] text-black w-[35%] min-w-[120px]  uppercase">
+              <h1 className="text-[14px] font-[500] text-black w-[30%] min-w-[120px]  uppercase">
                 {item?.description}
               </h1>
-
-              <h1 className="text-[14px] flex items-center justify-between gap-4 font-[500] text-[#98A2B2] w-[15%] uppercase">
+              <h1 className="text-[14px] font-[500] text-black w-[20%] min-w-[120px]  uppercase">
+                {dayjs(item?.date).format("DD-MM-YYYY")}
+              </h1>
+              <h1 className="text-[14px] flex items-center justify-between gap-4 font-[500] text-[#98A2B2] w-[20%] uppercase">
+                <div
+                  className={`bg-opacity-15 px-4 py-2 w-fit whitespace-nowrap rounded-[12px] ${
+                    item?.is_birthday == true
+                      ? "text-[#44CE62] px-[26px] bg-[#44CE62]"
+                      : "text-red bg-red"
+                  }  `}
+                >
+                  {item?.is_birthday == true ? "Doglan gün" : "Ýok"}
+                </div>
                 <div
                   onClick={() =>
                     history.push({ pathname: "/messageTemplate/" + item?.id })
