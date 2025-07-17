@@ -8,7 +8,7 @@ import WarningIcon from "@mui/icons-material/Warning";
 import { axiosInstance } from "../../utils/axiosIntance";
 import { useHistory } from "react-router-dom";
 import PageLoading from "../../components/PageLoading";
-import { useCreateAutoReplyMutation } from "../../services/messageAutoReplay";
+import { useCreateMessageTemplateMutation } from "../../services/messageTamplate";
 import dayjs from "dayjs";
 import { DatePicker } from "antd";
 
@@ -21,11 +21,11 @@ const MessageTemplateCreate = () => {
     date: dayjs(new Date()).format("YYYY-MM-DD"),
   });
 
-  const [createAutoReply] = useCreateAutoReplyMutation();
+  const [createMessageTemplate] = useCreateMessageTemplateMutation();
 
   const createcategory = async () => {
     try {
-      await createAutoReply(sms).unwrap();
+      await createMessageTemplate(sms).unwrap();
       history.goBack();
     } catch (err) {
       console.error("Pozmakda säwlik:", err);
